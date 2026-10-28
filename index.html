@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#141a22">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="app-version" content="5">
 <title>Tamil TV</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e8a33d'/%3E%3Cpath d='M12 9l12 7-12 7z' fill='%23141a22'/%3E%3C/svg%3E">
 <style>
@@ -424,6 +425,24 @@ lang.hidden=LANGS.length<2;
 lang.onchange=()=>{stop();cur=null;setStatus("idle");load(LANGS.find(l=>l.code===lang.value))};
 setStatus("idle");
 load(LANGS[0]);
+
+// Mise à jour automatique : si une version plus récente est en ligne, la page se recharge toute seule.
+// Utile pour l’icône de l’écran d’accueil de l’iPhone, qui garde sa propre copie en cache.
+(function(){
+ const cur=(document.querySelector("meta[name=app-version]")||{}).content;
+ async function check(){
+  try{
+   const r=await fetch(location.pathname+"?_="+Date.now(),{cache:"no-store"});
+   const m=(await r.text()).match(/name="app-version" content="([^"]+)"/);
+   if(m&&cur&&m[1]!==cur&&!sessionStorage.getItem("ttv.rl."+m[1])){
+    sessionStorage.setItem("ttv.rl."+m[1],"1");
+    location.replace(location.pathname+"?v="+m[1]);
+   }
+  }catch(e){}
+ }
+ check();
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)check()});
+})();
 </script>
 </body>
 </html>
