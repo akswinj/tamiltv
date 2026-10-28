@@ -32,19 +32,21 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .listwrap{position:relative;flex:1;min-height:0}
 #grid{position:absolute;top:0;right:0;bottom:0;left:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2.4rem 2rem .8rem;scrollbar-width:none}
 #grid::-webkit-scrollbar{display:none}
-.row{display:flex;width:100%;text-align:left;margin-bottom:1.1rem;border-radius:.9rem}
-.thumb{flex:0 0 42%;max-width:12rem;position:relative;border-radius:.8rem;background:hsl(var(--h),28%,24%);overflow:hidden}
-.plate{position:absolute;top:11%;bottom:11%;left:14%;right:14%;display:flex;align-items:center;justify-content:center;border-radius:.55rem;background:#fff;color:#444;font-weight:700;overflow:hidden}
-.plate img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;padding:.4rem;background:#fff}
-.blogo{flex:none;position:relative;width:3.6rem;height:2.7rem;border-radius:.55rem;background:#fff;overflow:hidden}
+.row{display:flex;align-items:center;width:100%;text-align:left;padding:.55rem 0;border-bottom:1px solid #2a2a2c}
+.row[aria-current=true]{background:rgba(255,255,255,.08)}
+.thumb{flex:none;position:relative;width:4.6rem;height:3.2rem;margin:0 1rem 0 1.1rem}
+.plate{position:absolute;top:0;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;color:var(--mu);font-weight:700;font-size:.9rem}
+.plate:before{content:attr(data-i)}
+.plate.ok:before{display:none}
+.plate img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 .1rem rgba(255,255,255,.3))}
+.blogo{flex:none;position:relative;width:3.6rem;height:2.7rem}
 .blogo[hidden]{display:none}
-.blogo img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;padding:.3rem}
-.meta{display:flex;flex-direction:column;min-width:0;padding-top:.7rem}
+.blogo img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 .1rem rgba(255,255,255,.3))}
+.meta{display:flex;flex-direction:column;flex:1;min-width:0;padding-right:.6rem}
 .num{color:var(--mu);font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .name{font-size:1.15rem;font-weight:650;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .q{color:var(--mu);font-size:.95rem}
 .row[aria-current=true] .num:before{content:"";display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--red);margin-right:.45rem;vertical-align:.1em}
-.row[aria-current=true] .thumb{box-shadow:0 0 0 2px var(--tx)}
 .row.fav .name:after{content:" ★";color:var(--ac);font-size:.8em}
 .empty{color:var(--mu);padding:1rem .5rem}
 #scrub{position:absolute;right:.25rem;top:.2rem;bottom:1rem;width:2.1rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
@@ -87,10 +89,11 @@ svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stro
 #fav[aria-pressed=true] svg{fill:var(--ac);stroke:var(--ac)}
 #quality{background:var(--s2);border:1px solid var(--line);border-radius:2rem;height:2.8rem;padding:0 .8rem}
 #back{display:none}
-.thumb:before{content:"";display:block;padding-top:56.25%}
 #stage:before{content:"";display:block;padding-top:56.25%}
 .chip{margin-right:.6rem}
-.thumb{margin-right:1rem}
+#lst{display:none}
+#grab{display:none}
+.side.snap{transition:transform .2s ease}
 .meta>*+*{margin-top:.15rem}
 .dock>*{margin-right:.7rem}.dock>*:last-child{margin-right:0}
 .tabs button{margin-right:.2rem}.tabs button:last-child{margin-right:0}
@@ -104,7 +107,6 @@ svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stro
  .side{border:0}
  .top h2{font-size:2rem}
  #grid{padding:0 2.4rem 8rem 0}
- .thumb{border-radius:0 .8rem .8rem 0}
  #scrub{bottom:8rem}
  .dock{display:flex}
  .pane{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:20;background:#000;padding:0;justify-content:flex-start}
@@ -114,6 +116,19 @@ svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stro
  .bar{width:100%;max-width:none;padding:.6rem .9rem .6rem;padding:.6rem .9rem calc(.6rem + env(safe-area-inset-bottom));background:var(--bg)}
  #back{display:flex}
  #fs,#quality{display:none}
+ #lst{display:flex}
+ .bar{flex-wrap:wrap}
+ .bar>*{margin-right:.7rem}
+ .act{order:3;flex:0 0 100%;justify-content:space-between;margin:.6rem 0 0}
+ .act>*{margin-right:0}
+ .ib{width:2.9rem;height:2.9rem}
+ body.sheet .pane{bottom:62%}
+ body.sheet .side{position:fixed;left:0;right:0;bottom:0;width:100%;height:62%;z-index:30;border-radius:1.5rem 1.5rem 0 0;background:#1c1c1e;box-shadow:0 -10px 40px rgba(0,0,0,.6)}
+ body.sheet #grab{display:block;flex:none;position:relative;height:2.6rem;touch-action:none}
+ #grab:after{content:"";position:absolute;left:50%;top:.8rem;width:3rem;height:.3rem;margin-left:-1.5rem;border-radius:.2rem;background:#666}
+ body.sheet .top{display:none}
+ body.sheet #grid{padding:0 2.4rem 2rem 0}
+ body.sheet #scrub{bottom:2rem}
 }
 @media (min-width:1600px){
  html{font-size:19px}
@@ -124,6 +139,7 @@ svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stro
 <body>
 <div class="app">
  <aside class="side">
+  <div id="grab" role="button" aria-label="Fermer la liste"></div>
   <div class="top"><h2>Chaînes</h2><select id="lang" aria-label="Langue" hidden></select></div>
   <div id="chips"></div>
   <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="q" type="search" placeholder="Rechercher" autocomplete="off"></label>
@@ -140,6 +156,7 @@ svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stro
    <div class="info"><h1 id="title">Aucune chaîne</h1><small id="sub">Choisis une chaîne dans la liste</small></div>
    <div class="act">
     <select id="quality" aria-label="Qualité" hidden></select>
+    <button class="ib" id="lst" aria-label="Liste des chaînes"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
     <button class="ib" id="prev" aria-label="Chaîne précédente"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
     <button class="ib" id="fav" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.7 5.5 6 .9-4.4 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.3 9.9l6-.9z"/></svg></button>
     <button class="ib" id="next" aria-label="Chaîne suivante"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -224,10 +241,10 @@ function chips(){
 }
 const hue=k=>Math.abs([...k].reduce((a,ch)=>a*31+ch.charCodeAt(0)|0,7))%360;
 // Si un logo ne charge pas en direct, on retente via le relais (si configuré), sinon les initiales restent.
-function imgErr(i){if(PROXY&&!i.dataset.p){i.dataset.p=1;i.src=PROXY+encodeURIComponent(i.getAttribute("src"))}else i.remove()}
+function imgErr(i){if(PROXY&&!i.dataset.p){i.dataset.p=1;i.src=PROXY+encodeURIComponent(i.getAttribute("src"))}else{const q=i.parentNode;i.remove();if(q&&q.id==="blogo")q.hidden=true}}
 function row(c){
  const g=[...c.cats][0];
- return `<button class="row${favs.has(c.key)?" fav":""}" data-k="${esc(c.key)}" aria-current="${!!cur&&cur.key===c.key}"><span class="thumb" style="--h:${hue(c.key)}"><span class="plate">${esc(c.name.slice(0,2).toUpperCase())}${c.logo?`<img src="${esc(c.logo)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="imgErr(this)">`:""}</span></span><span class="meta"><span class="num">${c.num} - ${esc(FR[g]||g)}</span><span class="name">${esc(c.name)}</span><span class="q">${c.q||"En direct"}</span></span></button>`;
+ return `<button class="row${favs.has(c.key)?" fav":""}" data-k="${esc(c.key)}" aria-current="${!!cur&&cur.key===c.key}"><span class="thumb"><span class="plate" data-i="${esc(c.name.slice(0,2).toUpperCase())}">${c.logo?`<img src="${esc(c.logo)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onload="this.parentNode.classList.add('ok')" onerror="imgErr(this)">`:""}</span></span><span class="meta"><span class="num">${c.num} - ${esc(FR[g]||g)}</span><span class="name">${esc(c.name)}</span><span class="q">${c.q||"En direct"}</span></span></button>`;
 }
 // Index vertical à droite de la liste : on le touche ou on le glisse pour parcourir vite.
 function scrub(){
@@ -268,13 +285,18 @@ const fsExit=()=>{const f=document.exitFullscreen||document.webkitExitFullscreen
 const safePlay=()=>{try{const p=video.play();p&&p.catch&&p.catch(()=>{})}catch(e){}};
 const cands=()=>cur.urls.reduce((a,u)=>a.concat(PROXY?[u,PROXY+encodeURIComponent(u)]:[u]),[]);
 const isMobile=()=>matchMedia("(max-width:900px)").matches;
+function toggleSheet(on){
+ const b=document.body;if(on===undefined)on=!b.classList.contains("sheet");
+ if(on&&!b.classList.contains("playing"))return;
+ b.classList[on?"add":"remove"]("sheet");
+ if(on){const g=$("#grid"),r=g.querySelector(".row[aria-current=true]");if(r)g.scrollTop=Math.max(0,r.offsetTop-g.clientHeight/2+r.offsetHeight/2)}
+}
 function openPane(){
  if(!isMobile()||document.body.classList.contains("playing"))return;
  document.body.classList.add("playing");history.pushState({p:1},"");
- try{const f=fsReq(stage);f&&f.catch&&f.catch(()=>{})}catch(e){}
 }
 function closePane(){
- document.body.classList.remove("playing");
+ document.body.classList.remove("playing","sheet");
  if(fsEl())fsExit();
  stop();setStatus("idle");
 }
@@ -324,7 +346,7 @@ function select(c,play=true){
  $("#sub").textContent=[...c.cats].map(g=>FR[g]||g).join(", ");
  syncFav();
  document.querySelectorAll(".row").forEach(t=>t.setAttribute("aria-current",t.dataset.k===c.key));
- if(play){openPane();start()}
+ if(play){openPane();toggleSheet(false);start()}
 }
 function step(d){
  if(!visible.length)return;
@@ -366,11 +388,25 @@ $("#fav").onclick=()=>{
  favs.has(cur.key)?favs.delete(cur.key):favs.add(cur.key);
  store.set("ttv.fav",[...favs]);syncFav();render();
 };
-$("#back").onclick=()=>history.state&&history.state.p?history.back():closePane();
+$("#lst").onclick=()=>toggleSheet();
+// Tirer la poignée vers le bas (ou la toucher) referme la liste.
+(function(){
+ const g=$("#grab"),side=document.querySelector(".side");let y0=null,dy=0,t0=0;
+ g.addEventListener("pointerdown",e=>{y0=e.clientY;dy=0;t0=Date.now();side.classList.remove("snap");try{g.setPointerCapture(e.pointerId)}catch(x){}});
+ g.addEventListener("pointermove",e=>{if(y0===null)return;dy=Math.max(0,e.clientY-y0);side.style.transform="translateY("+dy+"px)"});
+ const end=()=>{
+  if(y0===null)return;
+  const dt=Date.now()-t0+1,tap=dy<6&&dt<300,close=tap||dy>90||(dy>30&&dy/dt>0.5);
+  y0=null;side.classList.add("snap");
+  if(close){side.style.transform="translateY(100%)";setTimeout(()=>{side.classList.remove("snap");side.style.transform="";toggleSheet(false)},200)}
+  else side.style.transform="";
+ };
+ g.addEventListener("pointerup",end);g.addEventListener("pointercancel",end);
+})();
+$("#back").onclick=()=>{if(document.body.classList.contains("sheet"))return toggleSheet(false);history.state&&history.state.p?history.back():closePane()};
 addEventListener("popstate",()=>{if(document.body.classList.contains("playing"))closePane()});
 $("#fs").onclick=fullscreen;
 video.addEventListener("dblclick",fullscreen);
-video.addEventListener("loadedmetadata",()=>{if(isMobile()&&!(stage.requestFullscreen||stage.webkitRequestFullscreen)&&video.webkitEnterFullscreen){try{video.webkitEnterFullscreen()}catch(e){}}});
 $("#quality").onchange=e=>{if(hls)hls.currentLevel=+e.target.value};
 addEventListener("keydown",e=>{
  if(e.target.matches("input,select"))return;
